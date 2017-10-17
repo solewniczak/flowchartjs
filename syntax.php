@@ -18,16 +18,16 @@ if(!defined('DOKU_INC')) die();
  */
 class syntax_plugin_flowchartjs extends DokuWiki_Syntax_Plugin {
 
-	function getType(){ return 'protected'; }
-	function getPType(){ return 'block'; }
-	function getSort(){ return 999; }
-	function connectTo($mode) {
+    public function getType(){ return 'protected'; }
+    public function getPType(){ return 'block'; }
+    public function getSort(){ return 999; }
+    public function connectTo($mode) {
     	$this->Lexer->addEntryPattern('<flowchartjs.*?>(?=.*?</flowchartjs>)', $mode, 'plugin_flowchartjs');
 	}
-	function postConnect() {
+    public function postConnect() {
 		$this->Lexer->addExitPattern('</flowchartjs>', 'plugin_flowchartjs');
 	}
-	function handle($match, $state, $pos, &$handler){
+    public function handle($match, $state, $pos, Doku_Handler $handler){
 		switch ($state) {
 			case DOKU_LEXER_ENTER : 
 				$style = trim(substr($match, 12, -1));
@@ -38,7 +38,7 @@ class syntax_plugin_flowchartjs extends DokuWiki_Syntax_Plugin {
 				return array($state, '');
 		}
 	}
-	function render($mode, &$renderer, $data) {
+    public function render($mode, Doku_Renderer $renderer, $data) {
 		if($mode == 'xhtml'){
 			list($state, $match) = $data;
 			switch ($state){
